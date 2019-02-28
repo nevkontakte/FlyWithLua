@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
+set(LUAJIT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/upstream/src)
+
 include(ExternalProject)
 
 ExternalProject_Add(project_luajit
@@ -19,7 +21,7 @@ set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${install_dir}/lib/libluaj
 
 add_dependencies(luajit project_luajit)
 
-# add_executable(myapp main.c)
+add_executable(myapp main.c)
 
 include_directories(${install_dir}/include/luajit-2.0)
 
