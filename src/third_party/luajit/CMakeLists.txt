@@ -14,7 +14,7 @@ ExternalProject_Add(project_luajit
   URL http://luajit.org/download/LuaJIT-${luajit_version}.tar.gz
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit-${luajit_version}
   CONFIGURE_COMMAND ""
-  PATCH_COMMAND ""
+  PATCH_COMMAND patch -p1 -t -N < ${CMAKE_CURRENT_SOURCE_DIR}/v2.0.1_hotfix1_X-Plane.patch
   BUILD_COMMAND make
   INSTALL_COMMAND make install PREFIX=${CMAKE_CURRENT_BINARY_DIR}/luajit-${luajit_version}
   BUILD_IN_SOURCE 1

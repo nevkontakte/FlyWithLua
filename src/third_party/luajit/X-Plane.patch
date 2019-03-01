@@ -1,0 +1,59 @@
+Patch file to make LuaJit work with X-Plane
+
+diff -Naur a/src/lib_aux.c b/src/lib_aux.c
+--- a/src/lib_aux.c	2013-02-19 15:15:00.000000000 -0500
++++ b/src/lib_aux.c	2019-03-01 10:26:06.652686000 -0500
+@@ -334,7 +334,7 @@
+   lua_State *L;
+   void *ud = lj_alloc_create();
+   if (ud == NULL) return NULL;
+-#if LJ_64
++#if LJ_64 && 0
+   L = lj_state_newstate(lj_alloc_f, ud);
+ #else
+   L = lua_newstate(lj_alloc_f, ud);
+@@ -343,7 +343,7 @@
+   return L;
+ }
+ 
+-#if LJ_64
++#if LJ_64 && 0
+ LUA_API lua_State *lua_newstate(lua_Alloc f, void *ud)
+ {
+   UNUSED(f); UNUSED(ud);
+diff -Naur a/src/lj_state.c b/src/lj_state.c
+--- a/src/lj_state.c	2013-02-19 15:15:00.000000000 -0500
++++ b/src/lj_state.c	2019-03-01 10:27:59.183527000 -0500
+@@ -175,7 +175,7 @@
+     g->allocf(g->allocd, G2GG(g), sizeof(GG_State), 0);
+ }
+ 
+-#if LJ_64
++#if LJ_64 && 0
+ lua_State *lj_state_newstate(lua_Alloc f, void *ud)
+ #else
+ LUA_API lua_State *lua_newstate(lua_Alloc f, void *ud)
+diff -Naur a/src/lj_state.h b/src/lj_state.h
+--- a/src/lj_state.h	2013-02-19 15:15:00.000000000 -0500
++++ b/src/lj_state.h	2019-03-01 10:28:37.116484000 -0500
+@@ -28,7 +28,7 @@
+ 
+ LJ_FUNC lua_State *lj_state_new(lua_State *L);
+ LJ_FUNC void LJ_FASTCALL lj_state_free(global_State *g, lua_State *L);
+-#if LJ_64
++#if LJ_64 && 0
+ LJ_FUNC lua_State *lj_state_newstate(lua_Alloc f, void *ud);
+ #endif
+ 
+diff -Naur a/src/Makefile b/src/Makefile
+--- a/src/Makefile	2013-02-19 15:15:00.000000000 -0500
++++ b/src/Makefile	2019-03-01 10:29:39.242049000 -0500
+@@ -34,7 +34,7 @@
+ # to slow down the C part by not omitting it. Debugging, tracebacks and
+ # unwinding are not affected -- the assembler part has frame unwind
+ # information and GCC emits it where needed (x64) or with -g (see CCDEBUG).
+-CCOPT= -O2 -fomit-frame-pointer
++CCOPT= -O2 -fomit-frame-pointer -fPIC
+ # Use this if you want to generate a smaller binary (but it's slower):
+ #CCOPT= -Os -fomit-frame-pointer
+ # Note: it's no longer recommended to use -O3 with GCC 4.x.
