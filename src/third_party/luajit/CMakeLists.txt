@@ -8,10 +8,10 @@ ExternalProject_Add(project_luajit
   URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit-2.0.1
   CONFIGURE_COMMAND ""
+  PATCH_COMMAND ""
   BUILD_COMMAND make
   INSTALL_COMMAND make install
-  PREFIX=${CMAKE_CURRENT_BINARY_DIR}/luajit-2.0.1
-)
+  PREFIX=${CMAKE_CURRENT_BINARY_DIR}/luajit-2.0.1)
 
 ExternalProject_Get_Property(project_luajit install_dir)
 
@@ -21,8 +21,8 @@ set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${install_dir}/lib/libluaj
 
 add_dependencies(luajit project_luajit)
 
-add_executable(myapp main.c)
+# add_executable(myapp main.c)
 
 include_directories(${install_dir}/include/luajit-2.0)
 
-target_link_libraries(myapp luajit)
+# target_link_libraries(myapp luajit)
