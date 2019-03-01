@@ -1,28 +1,27 @@
 cmake_minimum_required(VERSION 3.9)
 
-set(LUAJIT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/upstream/src)
-
 include(ExternalProject)
 
+project(luajit)
+
+set (luajit_version $ENV{LUAJIT_VERSION})
+
+if ("${lua_version}" STREQUAL "")
+  set(luajit_version 2.0.1)
+endif()
+
 ExternalProject_Add(project_luajit
-  URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit-2.0.1
+  URL http://luajit.org/download/LuaJIT-${luajit_version}.tar.gz
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit-${luajit_version}
   CONFIGURE_COMMAND ""
   PATCH_COMMAND ""
   BUILD_COMMAND make
-  INSTALL_COMMAND make install
-  PREFIX=${CMAKE_CURRENT_BINARY_DIR}/luajit-2.0.1)
+  INSTALL_COMMAND make install PREFIX=${CMAKE_CURRENT_BINARY_DIR}/luajit-${luajit_version}
+  BUILD_IN_SOURCE 1
+)
 
 ExternalProject_Get_Property(project_luajit install_dir)
 
-add_library(luajit STATIC IMPORTED)
-
-set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${install_dir}/lib/libluajit-5.1.a)
-
-add_dependencies(luajit project_luajit)
-
-# add_executable(myapp main.c)
-
-include_directories(${install_dir}/include/luajit-2.0)
-
-# target_link_libraries(myapp luajit)
+install(DIRECTORY ${install_dir}/bin/ DESTINATION bin)
+install(DIRECTORY ${install_dir}/lib/ DESTINATION lib)
+install(DIRECTORY ${install_dir}/include/ DESTINATION include)
