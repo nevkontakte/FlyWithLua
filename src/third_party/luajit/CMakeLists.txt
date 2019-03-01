@@ -4,6 +4,8 @@ include(ExternalProject)
 
 project(luajit)
 
+add_dependencies(FlyWithLua project_luajit)
+
 set (luajit_version $ENV{LUAJIT_VERSION})
 
 if ("${lua_version}" STREQUAL "")
