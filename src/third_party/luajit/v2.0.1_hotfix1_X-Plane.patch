@@ -157,3 +157,20 @@ Fix memory access check for fast string interning.
  # Use this if you want to generate a smaller binary (but it's slower):
  #CCOPT= -Os -fomit-frame-pointer
  # Note: it's no longer recommended to use -O3 with GCC 4.x.
+
+diff -Naur a/src/Makefile b/src/Makefile
+--- a/src/Makefile	2019-03-02 17:39:48.885094000 -0500
++++ b/src/Makefile	2019-03-02 17:44:31.471384685 -0500
+@@ -72,10 +72,10 @@
+ # as dynamic mode.
+ #
+ # Mixed mode creates a static + dynamic library and a statically linked luajit.
+-BUILDMODE= mixed
++# BUILDMODE= mixed
+ #
+ # Static mode creates a static library and a statically linked luajit.
+-#BUILDMODE= static
++BUILDMODE= static
+ #
+ # Dynamic mode creates a dynamic library and a dynamically linked luajit.
+ # Note: this executable will only run when the library is installed!
