@@ -36,12 +36,10 @@ if (WIN32)
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/include64")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/GLUT_for_Windows")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Win")
-	list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/pc_libs")
 elseif (APPLE)
     list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Mac")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/mac_libs")
 elseif (UNIX)
-    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/linux_libs/luajit/64")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/linux_libs/OpenAL")
 endif ()
 
@@ -108,12 +106,9 @@ target_link_libraries(FlyWithLua ${OPENGL_LIBRARIES} ${OPENAL_LIBRARY} ${GLUT_LI
 
 # Link Lua related libraries.
 add_subdirectory(third_party/luajit)
-find_library(LUAJIT_LIBRARY NAMES libluajit-5.1.a)
-# find_library(LUAJIT_LIBRARY NAMES lua51 libluajit.a libluajit-5.1.a)
-target_link_libraries(FlyWithLua ${LUAJIT_LIBRARY})
 add_subdirectory(third_party/luaxml)
 add_subdirectory(third_party/luasocket)
-target_link_libraries(FlyWithLua LuaXML_lib LuaSocket::Mime LuaSocket::Socket LuaSocket::Unix LuaSocket::Serial)
+target_link_libraries(FlyWithLua LuaXML_lib LuaSocket::Mime LuaSocket::Socket LuaSocket::Unix LuaSocket::Serial luajit::LuaJIT)
 
 # Add Sol2 library for C++ <-> Lua bindings
 add_subdirectory(third_party/sol2)
