@@ -10,7 +10,7 @@ endif()
 
 set(build_options "")
 if (NOT CMAKE_SYSTEM_NAME STREQUAL CMAKE_HOST_SYSTEM_NAME)
-  # Additional configuration is needed when cross-compilint.
+  # We are cross-compiling: set appropriate toolchain options for LuaJIT.
   if (WIN32)
     set(build_options "CC=gcc" "CROSS=${TOOLCHAIN_PREFIX}-" "TARGET_SYS=Windows")
   elseif (APPLE)
