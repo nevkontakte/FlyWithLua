@@ -35,6 +35,9 @@ jobs:
       run: |
         echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
 
+    - uses: GuillaumeFalourd/setup-windows10-sdk-action@v1
+      if: runner.os == 'Windows'
+
     - name: Install build dependencies
       if: runner.os == 'Linux'
       run: |
