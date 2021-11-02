@@ -9,12 +9,14 @@ if ("${lua_version}" STREQUAL "")
 endif()
 
 set(build_options "")
-if (UNIX AND NOT APPLE)
-elseif (WIN32)
-  set(build_options "CC=gcc" "CROSS=${TOOLCHAIN_PREFIX}-" "TARGET_SYS=Windows")
-elseif (APPLE)
-  set(build_options "CC=clang" "CROSS=${TOOLCHAIN_PREFIX}-" "TARGET_SYS=Darwin")
-endif ()
+if (NOT CMAKE_SYSTEM_NAME STREQUAL CMAKE_HOST_SYSTEM_NAME)
+  # Additional configuration is needed when cross-compilint.
+  if (WIN32)
+    set(build_options "CC=gcc" "CROSS=${TOOLCHAIN_PREFIX}-" "TARGET_SYS=Windows")
+  elseif (APPLE)
+    set(build_options "CC=clang" "CROSS=${TOOLCHAIN_PREFIX}-" "TARGET_SYS=Darwin")
+  endif ()
+endif()
 
 set(luajit_prefix ${CMAKE_CURRENT_BINARY_DIR}/luajit-${luajit_version})
 
