@@ -5,6 +5,8 @@ on:
     branches: [ "*" ]
   pull_request:
     branches: [ "*" ]
+  release:
+    type: [created, edited]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -77,3 +79,16 @@ jobs:
           path: |
             ${{github.workspace}}/FlyWithLua*
           if-no-files-found: error
+
+      - name: Create plugin archive
+        if: github.event_name == 'release'
+        run: zip -r FlyWithLua_all_platforms.zip FlyWithLua/
+
+      - name: Upload binaries to release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: FlyWithLua_all_platforms.zip
+          tag: ${{ github.ref }}
+          overwrite: true
