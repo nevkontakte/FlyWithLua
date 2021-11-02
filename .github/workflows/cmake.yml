@@ -9,6 +9,9 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
+  # This is required by LuaJIT make file (see https://luajit.org/install.html, "Building LuaJIT").
+  # TODO(nevkontakte): Also use this for -mmacosx-version-min in the main CMake file.
+  MACOSX_DEPLOYMENT_TARGET: "10.10"
 
 jobs:
   build:
@@ -16,26 +19,23 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
+          - ubuntu-latest
           - windows-latest
-          # - macos-latest
+          - macos-latest
 
     runs-on: ${{matrix.os}}
-    env:
-      # This is required by LuaJIT make file (see https://luajit.org/install.html, "Building LuaJIT").
-      # TODO(nevkontakte): Also use this for -mmacosx-version-min in the main CMake file.
-      MACOSX_DEPLOYMENT_TARGET: "10.10"
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set Windows Environment variables
+    - name: "Windows: Configure environment"
       if: runner.os == 'Windows'
       shell: bash
       run: |
+        # Select MinGW toolchain instead of the default MSVC.
         echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
 
-    - name: Install build dependencies
+    - name: "Linux: Install dependency libraries"
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
