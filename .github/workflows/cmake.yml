@@ -34,7 +34,6 @@ jobs:
       shell: bash
       run: |
         echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
-        env
 
     - name: Install build dependencies
       if: runner.os == 'Linux'
@@ -44,7 +43,7 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/src
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} --debug-find
 
     - name: Build
       working-directory: ${{github.workspace}}/src

@@ -38,7 +38,7 @@ if (WIN32)
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Win")
     # Requed for setupapi library (hidapi dependency).
     # list(APPEND CMAKE_LIBRARY_PATH "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/x64")
-    list(APPEND CMAKE_LIBRARY_PATH "$ENV{DDKROOT}/Lib/x64")
+    # list(APPEND CMAKE_LIBRARY_PATH "$ENV{DDKROOT}/Lib/x64")
 elseif (APPLE)
     list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Mac")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/mac_libs")
