@@ -29,16 +29,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - name: Set Windows Environment variables
-    #   if: runner.os == 'Windows'
-    #   shell: bash
-    #   run: |
-    #     echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
-
-    - uses: GuillaumeFalourd/setup-windows10-sdk-action@v1
+    - name: Set Windows Environment variables
       if: runner.os == 'Windows'
-      with:
-        sdk-version: 19041
+      shell: bash
+      run: |
+        echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
 
     - name: Install build dependencies
       if: runner.os == 'Linux'
@@ -48,7 +43,7 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/src
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       working-directory: ${{github.workspace}}/src
