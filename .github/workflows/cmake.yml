@@ -34,7 +34,7 @@ jobs:
       shell: bash
       run: |
         echo "CMAKE_GENERATOR=MinGW Makefiles" >> $GITHUB_ENV
-        ls "C:/Program Files (x86)/Microsoft SDKs/Windows/"
+        env
 
     - name: Install build dependencies
       if: runner.os == 'Linux'
