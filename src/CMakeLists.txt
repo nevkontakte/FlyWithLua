@@ -36,9 +36,6 @@ if (WIN32)
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/include64")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/GLUT_for_Windows")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Win")
-    # Requed for setupapi library (hidapi dependency).
-    # list(APPEND CMAKE_LIBRARY_PATH "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/x64")
-    # list(APPEND CMAKE_LIBRARY_PATH "$ENV{DDKROOT}/Lib/x64")
 elseif (APPLE)
     list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_SOURCE_DIR}/XPSDK301/Libraries/Mac")
     list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_SOURCE_DIR}/mac_libs")
@@ -126,7 +123,10 @@ endif ()
 
 # Link OS-specific libraries HidApi depends on. Only supported for Windows and Linux.
 if ((WIN32 OR UNIX) AND NOT APPLE)
-    find_library(HIDAPIDEPS_LIBRARY NAMES setupapi udev)
+    # HINTS is required to force CMake to search among the toolchain-provided libraries.
+    # This is important to make sure that the correct library is picked up on a system with
+    # several toolchains installed.
+    find_library(HIDAPIDEPS_LIBRARY NAMES setupapi udev HINTS ${CMAKE_C_IMPLICIT_LINK_DIRECTORIES})
     target_link_libraries(FlyWithLua ${HIDAPIDEPS_LIBRARY})
 endif ()
 
